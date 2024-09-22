@@ -10,9 +10,9 @@ public class Calculator
         double num1 = double.Parse(Console.ReadLine());
         
         Console.WriteLine("Введите маетматическую операцию");
-        char action = char.Parse(Console.ReadLine());
+        char action = Console.ReadKey().KeyChar;
         
-        Console.WriteLine("Введите второе число");
+        Console.WriteLine("\nВведите второе число");
         double num2 = double.Parse(Console.ReadLine());
 
         if (action == '+')
@@ -32,8 +32,17 @@ public class Calculator
         }
         else if (action == '/')
         {
-            double result = num1 / num2;
-            Console.WriteLine($@"Результат = {result}");
+
+            if (num2 == 0)
+            {
+                Console.WriteLine("Ошибка. Делить на ноль нельзя.");
+            }
+            else
+            {
+                double result = num1 / num2;
+                Console.WriteLine($@"Результат = {result}");
+            }
+            
         }
     }
 }
