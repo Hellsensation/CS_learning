@@ -4,42 +4,39 @@ namespace Lesson_2;
 
 public class Users
 {
-    private string[][] users = new string[3][];
-    string[] arr = new string[4];
-    
     public void UserAdd()
     {
-        for (int i = 0; i < 3; i++)
-        {
-            Console.WriteLine($"\nВведите ФИО человека {i+1} через пробел");
-            string username = Console.ReadLine().ToLower();
-            
-            arr = username.Split(' ').ToArray();
-            users[i] = arr;
-        }
-        PrintUsername();
-    }
+        string[][] users = new string[3][];
+        users[0] = new string[3];
+        users[1] = new string[3];
+        users[2] = new string[3];
 
-    private void PrintUsername()
-    {
-        Console.WriteLine("Введите ИМЯ человека, котрого хотите получить ФИО");
-        string? firstName = Console.ReadLine().ToLower();
+        Console.WriteLine("\nВведите ФИО первого пользоватля");
+        Console.Write("Имя: ");
+        users[0][0] = Console.ReadLine();
+        Console.Write("Фамилия: ");
+        users[0][1] = Console.ReadLine();
+        Console.Write("Отчество: ");
+        users[0][2] = Console.ReadLine();
         
-        foreach (var user in users)
-        {
+        Console.WriteLine("Введите ФИО второго пользоватля");
+        Console.Write("Имя: ");
+        users[1][0] = Console.ReadLine();
+        Console.Write("Фамилия: ");
+        users[1][1] = Console.ReadLine();
+        Console.Write("Отчество: ");
+        users[1][2] = Console.ReadLine();
+        
+        Console.WriteLine("Введите ФИО третьего пользоватля");
+        Console.Write("Имя: ");
+        users[2][0] = Console.ReadLine();
+        Console.Write("Фамилия: ");
+        users[2][1] = Console.ReadLine();
+        Console.Write("Отчество: ");
+        users[2][2] = Console.ReadLine();
 
-            foreach (var elem in user)
-            {
-                 if (firstName == user[1])
-                 {
-                     Console.Write($"{elem} ");
-                 }
-                 else
-                 {
-                     Console.WriteLine("Такого пользователя нет в базе данных");
-                     break;
-                 }
-            }
-        }
+        Console.WriteLine("Данные какого пользоватя вывести? (1, 2, 3)");
+        int userNumber = int.Parse(Console.ReadLine());
+        Console.WriteLine($"{users[userNumber-1][0]} {users[userNumber-1][1]} {users[userNumber-1][2]}");
     }
 }
