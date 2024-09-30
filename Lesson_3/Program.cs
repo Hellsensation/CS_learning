@@ -19,23 +19,30 @@ class Program
     static void Menu()
     {
         Console.WriteLine("1 - Ввести числа\n2 - Очистить массив\n3 - Печать чисел из массива и завершение программы.");
-        int userChoise = int.Parse(Console.ReadLine());
-        
-        switch (userChoise)
+        try
         {
-            case 1:
-                InputNumbers();
-                break;
-            case 2:
-                ClearArray();
-                break;
-            case 3:
-                PrintNumbers();
-                break;
-            default:
-                Console.WriteLine("Ошибка");
-                Menu();
-                break;
+            int userChoise = int.Parse(Console.ReadLine());
+            switch (userChoise)
+            {
+                case 1:
+                    InputNumbers();
+                    break;
+                case 2:
+                    ClearArray();
+                    break;
+                case 3:
+                    PrintNumbers();
+                    break;
+                default:
+                    Console.WriteLine("Ошибка");
+                    Menu();
+                    break;
+            }
+        }
+        catch (FormatException)
+        {
+            Console.WriteLine("Ошибка ввода. Введите число, 1,2 или 3");
+            Menu();
         }
     }
 
