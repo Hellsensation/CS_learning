@@ -16,25 +16,33 @@ public static class PrimeNumber
         {
             Console.Write("Введите значение N: ");
 
-            int userNumber = int.Parse(Console.ReadLine());
+            string? userInput = Console.ReadLine();
+            bool userNumber = int.TryParse(userInput, out var number);
 
-
-            int primeNumCount = 0;
-            int startNum = 2;
-
-            while (primeNumCount < userNumber)
+            if (userNumber)
             {
-                if (IsPrime(startNum))
+                int primeNumCount = 0;
+                int startNum = 2;
+
+                while (primeNumCount < number)
                 {
-                    primeNumCount++;
+                    if (IsPrime(startNum))
+                    {
+                        primeNumCount++;
+                    }
+                    if (primeNumCount < number)
+                    {
+                        startNum++;
+                    }
                 }
-                if (primeNumCount < userNumber)
-                {
-                    startNum++;
-                }
+
+                Console.WriteLine($"N-ое простое число: {startNum}");
+            }
+            else
+            {
+                Console.WriteLine("Введите число, а не строку.");
             }
 
-            Console.WriteLine($"N-ое простое число: {startNum}");
         }
     }
 
