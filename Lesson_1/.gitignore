@@ -12,5 +12,6 @@
 /dataSources/
 /dataSources.local.xml
 /.idea/
+/.vs/
 /bin/
 /obj/
