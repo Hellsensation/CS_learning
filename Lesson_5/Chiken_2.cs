@@ -2,7 +2,9 @@
 
 public static class Chicken_2
 {
-    private static int[] chickenParams = new int[2] { 0, 0 }; // первый параметр хранит уровень сытости, второй - кол-во яиц.
+    private static int[,] chikensParams = { { 0, 0 }, { 0, 0 }, { 0, 0 } };
+    private static int eggsCount = 0;
+    
     private static int daysCount = 1;
 
     public static void Menu()
@@ -13,8 +15,8 @@ public static class Chicken_2
         {
             if (isDead())
             {   
-                Print($"На {daysCount}-й день курица умерла.\nGAME OVER", ConsoleColor.Red);
-                return;
+                Print($"На {daysCount}-й день все курицы умерли\nGAME OVER", ConsoleColor.Red);
+;               return;
             }
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine($"=========== День номер {daysCount} ===========");
@@ -24,7 +26,7 @@ public static class Chicken_2
             switch (userInput)
             {
                 case "1":
-                    FeedChicken();
+                    FeedChickens();
                     break;
                 case "2":
                     GetEgg();
@@ -36,34 +38,51 @@ public static class Chicken_2
                     Console.WriteLine("Введите 1, 2 или 3");
                     break;
             }
-
-            Console.WriteLine($"На данный момент:\nКол-во яиц - {chickenParams[1]}\nУровень сытости курицы - {chickenParams[0]}");
+            
+            Console.WriteLine($"На данный момент живых куриц {chikensParams.GetLength(0)}:\nКол-во яиц - {eggsCount}");
+            for(int i = 0; i < chikensParams.GetLength(0); i++)
+            {
+                Console.WriteLine($"\nУровень сытости курицы {i+1} - {chikensParams[i,0]}");
+            }
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine("====================================");
             Console.ResetColor();
 
-            daysCount++;
-            chickenParams[0] -= 1; // Если курица жива, то каждый новый день уровень ее сыстости падает на 1.
-        }
 
+            daysCount++;
+            for (int i = 0; i < chikensParams.GetLength(0); i++)
+            {
+                chikensParams[i, 0] -= 1; // Если курица жива, то каждый новый день уровень ее сыстости падает на 1.
+            }
+        }
     }
 
-    static void FeedChicken()
+    static void FeedChickens()
     {
-        Print("Покормить курицу.\nСколько дать зерен?\nОт 1 до 3", ConsoleColor.Green);
+        Print("Покормить куриц", ConsoleColor.Cyan);
+        for (int i = 0; i < chikensParams.GetLength(0); i++)
+        {
+            FeedChicken(i);
+        }
+    }
+
+    static void FeedChicken(int num)
+    {
+        Print($"Покормить курицу {num+1}.\nСколько дать зерен?\nОт 1 до 3", ConsoleColor.Green);
         string? foodCount = Console.ReadLine();
         bool result = int.TryParse(foodCount, out var count);
         if (result)
         {
             if (count >= 1 & count <= 3)
             {
-                chickenParams[0] += count;
-                chickenParams[1] += 1;
+                chikensParams[num, 0] += count;
+                chikensParams[num, 1] += 1;
+                eggsCount += chikensParams[num, 1];
             }
             else
             {
                 Print("Зерен не меньше одного и не больше трех!!!", ConsoleColor.Red);
-                FeedChicken();
+                FeedChicken(num-1);
             }
         }
         else
@@ -74,10 +93,10 @@ public static class Chicken_2
 
     static void GetEgg()
     {
-        if (chickenParams[1] > 0)
+        if (eggsCount > 0)
         {
             Print("Получить яйцо", ConsoleColor.Green);
-            chickenParams[1] -= 1;
+            eggsCount -= 1;
         }
         else
         {
@@ -88,21 +107,46 @@ public static class Chicken_2
     static void DoNothing()
     {
         Print("Ничего не делать", ConsoleColor.DarkBlue);
-        chickenParams[0] -= 1;
     }
-
+    
     static bool isDead()
     {
-        if (chickenParams[0] < 0)
+        for (int i = chikensParams.GetLength(0) - 1; i >= 0; i--)
+        {
+            if (chikensParams[i, 0] < 0) 
+            {
+                Console.WriteLine($"{i + 1} Курица умерла");
+                chikensParams = removeChicken(chikensParams, i); 
+            }
+        }
+        
+        if (chikensParams.GetLength(0) == 0)
         {
             return true;
         }
-        else
-        { 
-            return false; 
-        }   
+
+        return false;
+    }
+    
+    static int[,] removeChicken(int[,] chikens, int removeIndex)
+    {
+        int[,] newChickens = new int[chikens.GetLength(0)-1, 2];
+        for (int i = 0; i < chikens.GetLength(0); i++)
+        {
+            if (removeIndex == i)
+            {
+                continue;
+            }
+
+            for (int j = 0; j < chikensParams.GetLength(1); j++)
+            {
+                newChickens[i, j] = chikens[i, j];
+            }
+        }
+        return newChickens;
     }
 
+    
     static void Print(string text, ConsoleColor color)
     {
         Console.ForegroundColor = color;
