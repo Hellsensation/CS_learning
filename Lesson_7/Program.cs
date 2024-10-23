@@ -1,22 +1,26 @@
-﻿namespace Lesson_7
+﻿namespace Lesson_7;
+
+using static Methods;
+class Program
 {
-    class Program
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
-        {
-            Console.WriteLine("Hello, World!");
+        Ferm ferm = new Ferm();
 
-            Print("asdfdf", ConsoleColor.DarkGreen);
+        Cow cow1 = new Cow(satiety:20, sex: "male" );
+        Cow cow2 = new Cow(satiety:20, sex: "female" );
+        ferm.cows.Add(cow1);
+        ferm.cows.Add(cow2);
 
+        ferm.AnimalFeeding();
+        ferm.GetEatFromAnimals();
+        ferm.AnumalMating();
 
-        }
-        public static void Print(string text, ConsoleColor color)
-        {
-            Console.ForegroundColor = color;
-            Console.WriteLine(text);
-            Console.ResetColor();
-        }
 
 
     }
+
+
+
+
 }
