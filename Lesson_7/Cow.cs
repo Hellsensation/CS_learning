@@ -6,28 +6,28 @@ internal class Cow
 {
     public string? Sex { get; set; }
     public int? Satiety { get; set; }
-    public int? milk {  get;  private set; }
+    public int? Milk {  get;  private set; }
     
     public Cow(int satiety,  string sex)
     {
         Sex = sex;
         Satiety = satiety;
-        milk = 0;
-        //Ferm ferm = new Ferm();
+        Milk = 0;
+        //Ferm ferm = new Ferm();    Как при инициализации коровы, сразху добавить ее на ферму?
         //ferm.cows.Add(this);
     }
 
     public void ToEat(int food)
     {
         Satiety += food;
-        milk += 1;
-        Print($"Дали корове поесть\nУровень сытости:{Satiety}\nКол-во молока: {milk} литров", ConsoleColor.DarkGreen);
+        Milk += 1;
+        Print($"Дали корове поесть\nУровень сытости:{Satiety}\nКол-во молока: {Milk} литров", ConsoleColor.DarkGreen);
     }
 
     public void GiveMilk ()
     {
-        milk -= 1;
-        Print($"Подоили корову\nКол-во молока: {milk} литров", ConsoleColor.Green);
+        Milk -= 1;
+        Print($"Подоили корову\nКол-во молока: {Milk} литров", ConsoleColor.Green);
     }
 
     public Cow DoSex(Cow cow)
