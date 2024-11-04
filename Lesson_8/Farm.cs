@@ -6,8 +6,13 @@ using System.Threading.Tasks;
 
 namespace Lesson_8
 {
-    internal class Farm
+    public class Farm
     {
+        public List<Cow> cows = [];
+        public List<Chicken> chickens = [];
+        public List<Pig> pigs = [];
 
     }
+
+
 }

@@ -5,10 +5,11 @@
         static void Main(string[] args)
         {
             Console.WriteLine("Hello, World!");
+            Cow cow1 = new Cow(age: 22, milk: 21, AnimalGender.female);
+            Cow cow2 = new Cow(age: 22, milk: 21, AnimalGender.male);
 
-            Animal anuimal = new Animal(age:321, AnimalGender.female);
+            Cow re = cow1.DoSex(cow2);
 
-            Cow cow = new Cow(age:22, milk: 21);
 
         }
     }
