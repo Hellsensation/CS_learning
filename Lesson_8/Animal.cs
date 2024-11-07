@@ -1,6 +1,6 @@
 ﻿namespace Lesson_8;
 
-public class Animal
+public abstract class Animal
 {
     public int? Age;
     public AnimalGender? Sex;
@@ -31,15 +31,8 @@ public class Animal
         Satiety += food;
     }
 
-    public Animal DoSex(Animal partner)
-    {
-        if (partner.Sex != Sex)
-        {
-            Animal animal = new Animal();
-            return animal;
-        }
-        return null;
-    }
+    public abstract Animal DoSex(Animal animal);
+
 }
 
 
@@ -73,6 +66,18 @@ public class Cow : Animal
         Milk = 0;
         return tempMilk;
     }
+
+    public override Animal DoSex(Animal cow)
+    {
+        if (cow.Sex != Sex)
+        {
+            return new Cow(milk: 0);
+        }
+        else
+        {
+            return null;
+        }
+    }
 }
 
 public class Chicken : Animal
@@ -104,6 +109,18 @@ public class Chicken : Animal
         int tempEggs = Eggs;
         Eggs = 0;
         return tempEggs;
+    }
+
+    public override Animal DoSex(Animal chicken)
+    {
+        if (chicken.Sex != Sex)
+        {
+            return new Chicken(eggs: 0);
+        }
+        else
+        {
+            return null;
+        }
     }
 }
 
@@ -137,6 +154,18 @@ public class Pig : Animal
         Sex = null;
         Satiety = null;
         return Meat;
+    }
+
+    public override Animal DoSex(Animal pig)
+    {
+        if (pig.Sex != Sex)
+        {
+            return new Pig(meat: 10);
+        }
+        else
+        {
+            return null;
+        }
     }
 }
 

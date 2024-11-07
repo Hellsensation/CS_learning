@@ -8,7 +8,9 @@
             Cow cow1 = new Cow(age: 22, milk: 21, AnimalGender.female);
             Cow cow2 = new Cow(age: 22, milk: 21, AnimalGender.male);
 
-            Cow re = cow1.DoSex(cow2);
+            Animal? newCow = cow1.DoSex(cow2);
+
+
 
 
         }

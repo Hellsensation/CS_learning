@@ -12,6 +12,8 @@ namespace Lesson_8
         public List<Chicken> chickens = [];
         public List<Pig> pigs = [];
 
+
+
     }
 
 
