@@ -19,7 +19,7 @@
 
         private static void FoodChanged(object sender, EventArgs e) 
         {
-            AnimalActionsArgs
+
         }
     }
 }
