@@ -4,22 +4,49 @@
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
-            Cow cow1 = new Cow(age: 22, milk: 21, AnimalGender.female);
-            Cow cow2 = new Cow(age: 22, milk: 21, AnimalGender.male);
-
-            Animal? newCow = cow1.DoSex(cow2);
+            int day = 0;
             Farm farm = new Farm();
-            farm.GiveFood(56);
-            
+
+            Cow cow1 = new Cow(age: 5, AnimalGender.female);
+            Cow cow2 = new Cow(age: 7, AnimalGender.male);
+
+            Chicken chicken1 = new Chicken(age: 1, AnimalGender.female);
+            Chicken chicken2 = new Chicken(age: 2, AnimalGender.male);
+
+            Pig pig1 = new Pig(age: 1, meat: 25, AnimalGender.female);
+            Pig pig2 = new Pig(age: 2, meat: 35, AnimalGender.male);
+
+
+            Console.WriteLine("Добавляем животных на ферму");
+            farm.AddAnimal(cow1);
+            farm.AddAnimal(cow2);
+
+            farm.AddAnimal(chicken1);
+            farm.AddAnimal(chicken2);
+
+            farm.AddAnimal(pig1);
+            farm.AddAnimal(pig2);
+
+
+            Console.WriteLine($"На данный момент на ферме\n" +
+                $"Молока: {farm.GetInfoAboutMilk()}\n" +
+                $"Яиц: {farm.GetInfoAboutEggs()}\n" +
+                $"Мяса: {farm.GetInfoAboutMeat()}");
+
+
+            while (day < 30)
+            {
+                Console.WriteLine("Кормим животных");
+                farm.FeedAnimal();
+                pig1.DoSex(pig2);
+                day++;  
+            }
+
+
 
 
 
         }
 
-        private static void FoodChanged(object sender, EventArgs e) 
-        {
-
-        }
     }
 }

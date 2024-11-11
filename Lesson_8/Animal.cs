@@ -6,6 +6,9 @@ public abstract class Animal
     public AnimalGender? Sex;
     public int? Satiety;
 
+    public delegate void AnimalBornEventHandler(Animal newAnimal);
+    public event AnimalBornEventHandler AnimalBorn;
+
     public Animal()
     {
         Age = 0;
@@ -31,7 +34,15 @@ public abstract class Animal
         Satiety += food;
     }
 
+    public abstract int GiveEat();
+
+
     public abstract Animal DoSex(Animal animal);
+
+    protected void AnimalBornEvent(Animal newborn)
+    {
+        AnimalBorn?.Invoke(newborn);
+    }
 
 }
 
@@ -39,39 +50,42 @@ public abstract class Animal
 public class Cow : Animal
 {
     public int Milk { get; set;}
-    public Cow(int milk) : base()
+    public Cow() : base()
     {
-        Milk = milk;
+        Milk = 0;
         Age = 0;
         Random random = new Random();
         Sex = (AnimalGender)random.Next(0, 2);
     }
-    public Cow(int age, int milk) : base(age)
+    public Cow(int age) : base(age)
     {
-        Milk = milk;
+        Milk = 0;
         Age = age;
         Random random = new Random();
         Sex = (AnimalGender)random.Next(0, 2);
     }
-    public Cow(int age, int milk, AnimalGender sex) : base(age, sex)
+    public Cow(int age, AnimalGender sex) : base(age, sex)
     {
-        Milk = milk;
+        Milk = 0;
         Age = age;
         Sex = sex;
     }
 
-    public int GiveMilk()
+    public override int GiveEat()
     {
         int tempMilk = Milk;
         Milk = 0;
         return tempMilk;
     }
 
-    public override Animal DoSex(Animal cow)
+    public override Animal DoSex(Animal partner)
     {
-        if (cow.Sex != Sex)
+        if (partner is Cow && partner.Sex != Sex)
         {
-            return new Cow(milk: 0);
+            Cow newCow = new Cow();
+            AnimalBornEvent(newCow);
+
+            return newCow;
         }
         else
         {
@@ -83,39 +97,44 @@ public class Cow : Animal
 public class Chicken : Animal
 {
     public int Eggs { get; set; }
-    public Chicken(int eggs) : base()
+
+    public Chicken()
     {
-        Eggs = eggs;
+        Eggs = 0;
         Age = 0;
         Random random = new Random();
         Sex = (AnimalGender)random.Next(0, 2);
     }
-    public Chicken(int age, int eggs) : base(age)
+
+    public Chicken(int age) : base(age)
     {
-        Eggs = eggs;
+        Eggs = 0;
         Age = age;
         Random random = new Random();
         Sex = (AnimalGender)random.Next(0, 2);
     }
-    public Chicken(int age, int eggs, AnimalGender sex) : base(age, sex)
+    public Chicken(int age, AnimalGender sex) : base(age, sex)
     {
-        Eggs = eggs;
+        Eggs = 0;
         Age = age;
         Sex = sex;
     }
 
-    public int GiveEggs()
+    public override int GiveEat()
     {
         int tempEggs = Eggs;
         Eggs = 0;
         return tempEggs;
     }
 
-    public override Animal DoSex(Animal chicken)
+    public override Animal DoSex(Animal partner)
     {
-        if (chicken.Sex != Sex)
+        if (partner is Chicken && partner.Sex != Sex)
         {
-            return new Chicken(eggs: 0);
+            Chicken newChicken = new Chicken();
+            AnimalBornEvent(newChicken);
+
+            return newChicken;
         }
         else
         {
@@ -127,16 +146,18 @@ public class Chicken : Animal
 public class Pig : Animal
 {
     public int Meat { get; set; }
-    public Pig(int meat) : base()
+
+
+    public Pig() : base()
     {
-        Meat = meat;
+        Meat = 5;
         Age = 0;
         Random random = new Random();
         Sex = (AnimalGender)random.Next(0, 2);
     }
-    public Pig(int age, int meat) : base(age)
+    public Pig(int age) : base(age)
     {
-        Meat = meat;
+        Meat = 5;
         Age = age;
         Random random = new Random();
         Sex = (AnimalGender)random.Next(0, 2);
@@ -148,7 +169,7 @@ public class Pig : Animal
         Sex = sex;
     }
 
-    public int GiveMeat()
+    public override int GiveEat()
     {
         Age = null;
         Sex = null;
@@ -156,11 +177,15 @@ public class Pig : Animal
         return Meat;
     }
 
-    public override Animal DoSex(Animal pig)
+
+    public override Animal DoSex(Animal partner)
     {
-        if (pig.Sex != Sex)
+        if (partner is Pig && partner.Sex != Sex)
         {
-            return new Pig(meat: 10);
+            Pig newPig = new Pig();
+            AnimalBornEvent(newPig);
+
+            return newPig;
         }
         else
         {

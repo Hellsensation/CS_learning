@@ -8,35 +8,74 @@ namespace Lesson_8;
 
 class Farm
 {
-    public List<Cow> cows = [];
-    public List<Chicken> chickens = [];
-    public List<Pig> pigs = [];
 
-    public EventHandler<AnimalActionsArgs> AnimalAction ;
+    public List<Animal> animals = [];
 
-    public void GiveFood(int num)
+
+    public void AddAnimal(Animal animal)
     {
-        AnimalAction.Invoke(this, new AnimalActionsArgs()
-        {
-            Action = ActionTypes.GiveFood,
-            Value = num,
+        animal.AnimalBorn += Animal_AnimalBorn;
+    }
 
-        });
+    private void Animal_AnimalBorn(Animal newAnimal)
+    {
+        Console.WriteLine($"Родилось новое животное! Рода: {newAnimal.GetType().Name}, Пол: {newAnimal.Sex}");
+    }
+
+
+    public void FeedAnimal() 
+    {
+        foreach(var animal in animals)
+        {
+            animal.ToEat(20);
+        }
+    }
+
+
+
+    public int GetInfoAboutMilk()
+    {
+        int milkCount = 0;
+        foreach (Animal animal in animals)
+        {
+            if (animal is Cow cow)
+            {
+                milkCount += cow.Milk;
+            }
+        }
+        return milkCount;
+    }
+
+    public int GetInfoAboutEggs()
+    {
+        int eggCount = 0;
+        foreach (Animal animal in animals)
+        {
+            if (animal is Chicken chicken)
+            {
+                eggCount += chicken.Eggs;
+            }
+        }
+        return eggCount;
+    }
+
+
+    public int GetInfoAboutMeat()
+    {
+        int meatCount = 0;
+        foreach (Animal animal in animals)
+        {
+            if (animal is Pig pig)
+            {
+                meatCount += pig.Meat;
+            }
+        }
+        return meatCount;
     }
 }
 
 
-enum ActionTypes
-{
-    GiveFood,
-    GiveOffspring
-    
-}
 
 
-class AnimalActionsArgs : EventArgs
-{
-    public int Value { get; set; }
-    public ActionTypes Action { get; set; }
-}
+
 
