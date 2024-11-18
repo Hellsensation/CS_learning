@@ -1,21 +1,7 @@
 ﻿namespace Lesson_8;
 
-public class TestAnimal
-{
-    private ILogger _logger;
 
-    public TestAnimal(ILogger console)
-    {
-        _logger = console;
-    }
-
-    public void ChangeSome(string message)
-    {
-        _logger.Print(message);
-    }
-}
-
-public class PrintConsole : ILogger
+public class ConsoleLogger : ILogger
 {
     public void Print(string text)
     {
@@ -23,7 +9,7 @@ public class PrintConsole : ILogger
     }
 }
 
-public class PrintFile : ILogger
+public class FileLogger : ILogger
 {
 
     public void Print(string text)
@@ -32,17 +18,6 @@ public class PrintFile : ILogger
     }
 }
 
-public class Startup
-{
-    public void Main()
-    {
-        PrintFile file = new PrintFile();
-        PrintConsole console = new PrintConsole();
-
-        TestAnimal animal = new TestAnimal(console);
-        animal.ChangeSome("sdfasdfss");
-    }
-}
 
 public interface ILogger
 {
@@ -60,12 +35,6 @@ public abstract class Animal
     public delegate void AnimalBornEventHandler(Animal newAnimal);
     public event AnimalBornEventHandler AnimalBorn;
 
-    //public Animal()
-    //{
-    //    Age = 0;
-    //    Random random = new Random();
-    //    Sex = (AnimalGender)random.Next(0, 2);
-    //}
 
     public Animal(ILogger logger)
     {
@@ -75,14 +44,14 @@ public abstract class Animal
         _logger = logger;
     }
 
-    public Animal(int age) 
+    public Animal(int age, ILogger logger) 
     {
         Age = age;
         Random random = new Random();
         Sex = (AnimalGender)random.Next(0, 2);
     }
 
-    public Animal(int age, AnimalGender sex)
+    public Animal(int age, AnimalGender sex, ILogger logger)
     {
         Age = age;
         Sex = sex;
@@ -102,6 +71,12 @@ public abstract class Animal
     {
         AnimalBorn?.Invoke(newborn);
     }
+
+    public void PrintInfo()
+    {
+        _logger.Print("")
+    }
+
 }
 
 
@@ -115,14 +90,14 @@ public class Cow : Animal
         Random random = new Random();
         Sex = (AnimalGender)random.Next(0, 2);
     }
-    public Cow(int age) : base(age)
+    public Cow(int age, ILogger logger) : base(age, logger)
     {
         Milk = 0;
         Age = age;
         Random random = new Random();
         Sex = (AnimalGender)random.Next(0, 2);
     }
-    public Cow(int age, AnimalGender sex) : base(age, sex)
+    public Cow(int age, AnimalGender sex, ILogger logger) : base(age, sex, logger)
     {
         Milk = 0;
         Age = age;
@@ -140,7 +115,8 @@ public class Cow : Animal
     {
         if (partner is Cow && partner.Sex != Sex)
         {
-            Cow newCow = new Cow();
+
+            Cow newCow = new Cow(new ConsoleLogger());
             AnimalBornEvent(newCow);
 
             return newCow;
@@ -150,7 +126,10 @@ public class Cow : Animal
             return null;
         }
     }
-
+    public void PrintInfo()
+    {
+        _logger
+    }
 
 }
 
@@ -158,7 +137,7 @@ public class Chicken : Animal
 {
     public int Eggs { get; set; }
 
-    public Chicken()
+    public Chicken(ILogger logger) : base(logger)
     {
         Eggs = 0;
         Age = 0;
@@ -166,14 +145,14 @@ public class Chicken : Animal
         Sex = (AnimalGender)random.Next(0, 2);
     }
 
-    public Chicken(int age) : base(age)
+    public Chicken(int age, ILogger logger) : base(age, logger)
     {
         Eggs = 0;
         Age = age;
         Random random = new Random();
         Sex = (AnimalGender)random.Next(0, 2);
     }
-    public Chicken(int age, AnimalGender sex) : base(age, sex)
+    public Chicken(int age, AnimalGender sex, ILogger logger) : base(age, sex, logger)
     {
         Eggs = 0;
         Age = age;
@@ -191,7 +170,7 @@ public class Chicken : Animal
     {
         if (partner is Chicken && partner.Sex != Sex)
         {
-            Chicken newChicken = new Chicken();
+            Chicken newChicken = new Chicken(new ConsoleLogger());
             AnimalBornEvent(newChicken);
 
             return newChicken;
@@ -208,21 +187,21 @@ public class Pig : Animal
     public int Meat { get; set; }
 
 
-    public Pig() : base()
+    public Pig(ILogger logger) : base(logger)
     {
         Meat = 5;
         Age = 0;
         Random random = new Random();
         Sex = (AnimalGender)random.Next(0, 2);
     }
-    public Pig(int age) : base(age)
+    public Pig(int age, ILogger logger) : base(age, logger)
     {
         Meat = 5;
         Age = age;
         Random random = new Random();
         Sex = (AnimalGender)random.Next(0, 2);
     }
-    public Pig(int age, int meat, AnimalGender sex) : base(age, sex)
+    public Pig(int age, int meat, AnimalGender sex, ILogger logger) : base(age, sex, logger)
     {
         Meat = meat;
         Age = age;
@@ -242,7 +221,7 @@ public class Pig : Animal
     {
         if (partner is Pig && partner.Sex != Sex)
         {
-            Pig newPig = new Pig();
+            Pig newPig = new Pig(new ConsoleLogger());
             AnimalBornEvent(newPig);
 
             return newPig;
