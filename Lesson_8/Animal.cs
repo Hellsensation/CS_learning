@@ -1,19 +1,78 @@
 ﻿namespace Lesson_8;
 
-public abstract class Animal
+public class TestAnimal
+{
+    private ILogger _logger;
+
+    public TestAnimal(ILogger console)
+    {
+        _logger = console;
+    }
+
+    public void ChangeSome(string message)
+    {
+        _logger.Print(message);
+    }
+}
+
+public class PrintConsole : ILogger
+{
+    public void Print(string text)
+    {
+        Console.WriteLine(text);
+    }
+}
+
+public class PrintFile : ILogger
+{
+
+    public void Print(string text)
+    {
+        File.AppendAllText("log.txt", text);
+    }
+}
+
+public class Startup
+{
+    public void Main()
+    {
+        PrintFile file = new PrintFile();
+        PrintConsole console = new PrintConsole();
+
+        TestAnimal animal = new TestAnimal(console);
+        animal.ChangeSome("sdfasdfss");
+    }
+}
+
+public interface ILogger
+{
+    void Print(string text);
+}
+
+
+public abstract class Animal 
 {
     public int? Age;
     public AnimalGender? Sex;
     public int? Satiety;
+    private readonly ILogger _logger;
 
     public delegate void AnimalBornEventHandler(Animal newAnimal);
     public event AnimalBornEventHandler AnimalBorn;
 
-    public Animal()
+    //public Animal()
+    //{
+    //    Age = 0;
+    //    Random random = new Random();
+    //    Sex = (AnimalGender)random.Next(0, 2);
+    //}
+
+    public Animal(ILogger logger)
     {
         Age = 0;
         Random random = new Random();
         Sex = (AnimalGender)random.Next(0,2);
+        _logger = logger;
     }
 
     public Animal(int age) 
@@ -43,14 +102,13 @@ public abstract class Animal
     {
         AnimalBorn?.Invoke(newborn);
     }
-
 }
 
 
 public class Cow : Animal
 {
     public int Milk { get; set;}
-    public Cow() : base()
+    public Cow(ILogger logger) : base(logger)
     {
         Milk = 0;
         Age = 0;
@@ -92,6 +150,8 @@ public class Cow : Animal
             return null;
         }
     }
+
+
 }
 
 public class Chicken : Animal
@@ -195,4 +255,7 @@ public class Pig : Animal
 }
 
 
-
+interface IAnimalInfo
+{
+    string PrintInfo();
+}
