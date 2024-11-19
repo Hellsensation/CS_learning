@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 
 namespace Lesson_8;
 
@@ -10,7 +6,15 @@ class Farm
 {
 
     public List<Animal> animals = [];
+    public readonly ILogger _logger;
+    private int milkCount = 0;
+    private int eggCount = 0;
+    private int meatCount = 0;
 
+    public Farm(ILogger logger)
+    {
+        _logger = logger;
+    }
 
     public void AddAnimal(Animal animal)
     {
@@ -19,8 +23,9 @@ class Farm
 
     private void Animal_AnimalBorn(Animal newAnimal)
     {
-        Console.WriteLine($"Родилось новое животное! Рода: {newAnimal.GetType().Name}, Пол: {newAnimal.Sex}");
+        _logger.Print($"Родилось новое животное! Рода: {newAnimal.GetType().Name}, Пол: {newAnimal.Sex}");
     }
+
 
 
     public void FeedAnimal() 
@@ -29,11 +34,12 @@ class Farm
         {
             animal.ToEat(20);
         }
+        _logger.Print("Кормим животных");
     }
 
 
 
-    public int GetInfoAboutMilk()
+    public void GetInfoAboutMilk()
     {
         int milkCount = 0;
         foreach (Animal animal in animals)
@@ -43,10 +49,9 @@ class Farm
                 milkCount += cow.Milk;
             }
         }
-        return milkCount;
     }
 
-    public int GetInfoAboutEggs()
+    public void GetInfoAboutEggs()
     {
         int eggCount = 0;
         foreach (Animal animal in animals)
@@ -56,11 +61,9 @@ class Farm
                 eggCount += chicken.Eggs;
             }
         }
-        return eggCount;
     }
 
-
-    public int GetInfoAboutMeat()
+    public void GetInfoAboutMeat()
     {
         int meatCount = 0;
         foreach (Animal animal in animals)
@@ -70,8 +73,20 @@ class Farm
                 meatCount += pig.Meat;
             }
         }
-        return meatCount;
     }
+
+    public void GetInfoAboutEatinFarm()
+    {
+        GetInfoAboutMilk();
+        GetInfoAboutEggs();
+        GetInfoAboutMeat();
+        _logger.Print($"На данный момент на ферме\n" +
+                $"Молока: {milkCount}\n" +
+                $"Яиц: {eggCount}\n" +
+                $"Мяса: {milkCount}");
+    }
+
+
 }
 
 
