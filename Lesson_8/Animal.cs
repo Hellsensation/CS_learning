@@ -1,36 +1,12 @@
 ﻿namespace Lesson_8;
 
 
-public class ConsoleLogger : ILogger
-{
-    public void Print(string text)
-    {
-        Console.WriteLine(text);
-    }
-}
-
-public class FileLogger : ILogger
-{
-
-    public void Print(string text)
-    {
-        File.AppendAllText("log.txt", text);
-    }
-}
-
-
-public interface ILogger
-{
-    void Print(string text);
-}
-
-
 public abstract class Animal 
 {
     public int? Age;
     public AnimalGender? Sex;
     public int? Satiety;
-    private readonly ILogger _logger;
+    public readonly ILogger _logger;
 
     public delegate void AnimalBornEventHandler(Animal newAnimal);
     public event AnimalBornEventHandler AnimalBorn;
@@ -71,24 +47,20 @@ public abstract class Animal
     {
         AnimalBorn?.Invoke(newborn);
     }
-
-    public void PrintInfo()
-    {
-        _logger.Print("")
-    }
-
 }
 
 
 public class Cow : Animal
 {
     public int Milk { get; set;}
+    public readonly ILogger _logger;
     public Cow(ILogger logger) : base(logger)
     {
         Milk = 0;
         Age = 0;
         Random random = new Random();
         Sex = (AnimalGender)random.Next(0, 2);
+        _logger = logger;
     }
     public Cow(int age, ILogger logger) : base(age, logger)
     {
@@ -96,12 +68,14 @@ public class Cow : Animal
         Age = age;
         Random random = new Random();
         Sex = (AnimalGender)random.Next(0, 2);
+        _logger = logger;
     }
     public Cow(int age, AnimalGender sex, ILogger logger) : base(age, sex, logger)
     {
         Milk = 0;
         Age = age;
         Sex = sex;
+        _logger = logger;
     }
 
     public override int GiveEat()
@@ -128,7 +102,7 @@ public class Cow : Animal
     }
     public void PrintInfo()
     {
-        _logger
+        _logger.Print($"Возраст: {Age}\nПол: {Sex}\nУровень сытости: {Satiety}\nМолока у коровы: {Milk}");
     }
 
 }
@@ -136,6 +110,7 @@ public class Cow : Animal
 public class Chicken : Animal
 {
     public int Eggs { get; set; }
+    public readonly ILogger _logger;
 
     public Chicken(ILogger logger) : base(logger)
     {
@@ -143,6 +118,7 @@ public class Chicken : Animal
         Age = 0;
         Random random = new Random();
         Sex = (AnimalGender)random.Next(0, 2);
+        _logger = logger;
     }
 
     public Chicken(int age, ILogger logger) : base(age, logger)
@@ -151,12 +127,14 @@ public class Chicken : Animal
         Age = age;
         Random random = new Random();
         Sex = (AnimalGender)random.Next(0, 2);
+        _logger = logger;
     }
     public Chicken(int age, AnimalGender sex, ILogger logger) : base(age, sex, logger)
     {
         Eggs = 0;
         Age = age;
         Sex = sex;
+        _logger = logger;
     }
 
     public override int GiveEat()
@@ -180,11 +158,17 @@ public class Chicken : Animal
             return null;
         }
     }
+
+    public void PrintInfo()
+    {
+        _logger.Print($"Возраст: {Age}\nПол: {Sex}\nУровень сытости: {Satiety}\nЯиц у курицы: {Eggs}");
+    }
 }
 
 public class Pig : Animal
 {
     public int Meat { get; set; }
+    public readonly ILogger _logger;
 
 
     public Pig(ILogger logger) : base(logger)
@@ -193,6 +177,7 @@ public class Pig : Animal
         Age = 0;
         Random random = new Random();
         Sex = (AnimalGender)random.Next(0, 2);
+        _logger = logger;
     }
     public Pig(int age, ILogger logger) : base(age, logger)
     {
@@ -200,12 +185,14 @@ public class Pig : Animal
         Age = age;
         Random random = new Random();
         Sex = (AnimalGender)random.Next(0, 2);
+        _logger = logger;
     }
     public Pig(int age, int meat, AnimalGender sex, ILogger logger) : base(age, sex, logger)
     {
         Meat = meat;
         Age = age;
         Sex = sex;
+        _logger = logger;
     }
 
     public override int GiveEat()
@@ -230,6 +217,11 @@ public class Pig : Animal
         {
             return null;
         }
+    }
+
+    public void PrintInfo()
+    {
+        _logger.Print($"Возраст: {Age}\nПол: {Sex}\nУровень сытости: {Satiety}\nМяса в свинье: {Meat}");
     }
 }
 

@@ -1,16 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Lesson_8;
 
-namespace Lesson_8
+
+public enum AnimalGender
+{
+    male = 0,
+    female = 1
+}
+
+public class ConsoleLogger : ILogger
+{
+    public void Print(string text)
+    {
+        Console.WriteLine(text);
+    }
+}
+
+public class FileLogger : ILogger
 {
 
-    public enum AnimalGender
+    public void Print(string text)
     {
-        male = 0,
-        female = 1
+        File.AppendAllText("log.txt", text);
     }
 }
 
