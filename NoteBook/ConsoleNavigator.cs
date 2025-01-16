@@ -60,8 +60,13 @@ namespace NoteBook
                         }
                         else if (menuItems[selectedIndex] == "Посмотреть заметки")
                         {
-                            //Path.GetFileName("Notes");
-                            Directory.GetFiles(Environment.CurrentDirectory);
+
+                            string[] fileNames = Directory.GetFiles(Path.Join(Environment.CurrentDirectory, "Notes") );
+                            foreach (string fileName in fileNames)
+                            {
+                             
+                                Console.WriteLine($"{Path.GetFileName(fileName)}   {File.GetCreationTime(fileName)}");
+                            }
                         }
                         else if (menuItems[selectedIndex] == "Выход")
                         {
