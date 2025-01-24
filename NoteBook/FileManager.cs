@@ -33,5 +33,17 @@ namespace NoteBook
                 Console.WriteLine($"Файл '{fileName}' уже существует.");
             }
         }
+
+        public static void EditTextFile(string fileName)
+        {
+            if (!File.Exists($"Notes\\{fileName}"))
+            {
+                Console.WriteLine("Такой заметки нет");
+            }
+            else
+            {
+                Console.WriteLine("Здесь будет редактирование");
+            }
+        }
     }
 }

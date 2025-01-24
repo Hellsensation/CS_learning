@@ -68,6 +68,21 @@ namespace NoteBook
                                 Console.WriteLine($"{Path.GetFileName(fileName)}   {File.GetCreationTime(fileName)}");
                             }
                         }
+                        else if (menuItems[selectedIndex] == "Редактировать заметки")
+                        {
+                            string[] fileNames = Directory.GetFiles(Path.Join(Environment.CurrentDirectory, "Notes"));
+                            foreach (string fileName in fileNames)
+                            {
+
+                                Console.WriteLine($"{Path.GetFileName(fileName)}   {File.GetCreationTime(fileName)}");
+                            }
+
+                            Console.WriteLine("Введите название заметки для редактирования: ");
+                            string notesName = Console.ReadLine();
+                            FileManager.EditTextFile(notesName);
+
+
+                        }
                         else if (menuItems[selectedIndex] == "Выход")
                         {
                             Environment.Exit(0);
